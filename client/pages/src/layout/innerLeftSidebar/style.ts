@@ -29,13 +29,33 @@ export const Body = styled.div`
   padding: 10px;
 `;
 
+export const BodyItemBox = styled.div``;
+
+export const BodyItem = styled.div`
+  padding: 5px 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 22px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  :hover {
+    color: white;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+`;
+
 export const InnerText = styled.input`
   width: 100%;
-  height: 30px;
+  height: 40px;
   border-radius: 8px;
   background-color: #23272a;
   border: none;
   padding-left: 10px;
   color: white;
-  font-weight: 600;
+  font-weight: 500;
+  outline: none;
+  ::placeholder {
+    color: white;
+    opacity: 0.5;
+  }
 `;

@@ -1,5 +1,15 @@
 import OutSideBarContainer from "./container";
 
-export default function OutSideBar() {
-  return <OutSideBarContainer />;
+interface IOutSideBarProps {
+  onClickMoveToMain: () => void;
+  onClickMoveToChannel: () => void;
+}
+
+export default function OutSideBar(props: IOutSideBarProps) {
+  return (
+    <OutSideBarContainer
+      onClickMoveToMain={props.onClickMoveToMain}
+      onClickMoveToChannel={props.onClickMoveToChannel}
+    />
+  );
 }

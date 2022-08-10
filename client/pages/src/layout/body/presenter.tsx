@@ -1,8 +1,12 @@
 import * as B from "./style";
 
-export default function BodyPresenter() {
+interface ILayOutBodyProps {
+  rightBarHide: boolean;
+}
+
+export default function BodyPresenter(props: ILayOutBodyProps) {
   return (
-    <B.HTML>
+    <B.HTML rightBodyHide={props.rightBarHide}>
       <B.Body>바디</B.Body>
     </B.HTML>
   );
