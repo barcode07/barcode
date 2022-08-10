@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Body from "./body";
 import Header from "./Header";
@@ -27,6 +28,9 @@ const Bar = styled.div`
   width: 100vw;
   height: 20px;
   background-color: #23272a;
+  padding-left: 5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
 `;
 
 const BodyBox = styled.div`
@@ -42,17 +46,27 @@ const MainBox = styled.div`
 `;
 
 export default function LayOut() {
+  const [rightBarHide, setRightBarHide] = useState(false);
+  const onClickMoveToChannel = () => {
+    setRightBarHide(true);
+  };
+  const onClickMoveToMain = () => {
+    setRightBarHide(false);
+  };
   return (
     <HTML>
-      <Bar />
+      <Bar>Bar &apos;s code</Bar>
       <Wrapper>
-        <OutSideBar />
+        <OutSideBar
+          onClickMoveToMain={onClickMoveToMain}
+          onClickMoveToChannel={onClickMoveToChannel}
+        />
         <InnerLeftSideBar />
         <MainBox>
           <Header />
           <BodyBox>
-            <Body />
-            <InnerRightSideBar />
+            <Body rightBarHide={rightBarHide} />
+            {!rightBarHide ? <></> : <InnerRightSideBar />}
           </BodyBox>
         </MainBox>
       </Wrapper>
