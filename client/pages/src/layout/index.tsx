@@ -25,10 +25,11 @@ const Wrapper = styled.div`
 `;
 
 const Bar = styled.div`
-  width: 100vw;
-  height: 20px;
+  width: 100%;
+  height: 35px;
+  padding-top: 2px;
+  padding-left: 15px;
   background-color: #23272a;
-  padding-left: 5px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
 `;
@@ -55,7 +56,7 @@ export default function LayOut() {
   };
   return (
     <HTML>
-      <Bar>Bar &apos;s code</Bar>
+      <Bar>Bar code</Bar>
       <Wrapper>
         <OutSideBar
           onClickMoveToMain={onClickMoveToMain}
