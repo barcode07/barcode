@@ -70,41 +70,8 @@ export const LoginButton = styled.button`
   height: 50px;
   border: none;
   border-radius: 20px;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 700;
-  color: red;
-  background: linear-gradient(
-    to right,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white,
-    black,
-    white
-  );
+  background: linear-gradient(to right, black, white, black);
   cursor: pointer;
 `;
