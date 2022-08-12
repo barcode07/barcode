@@ -1,3 +1,7 @@
 export interface ILoginUI {
-  onClickMoveSignup: () => void;
+  inputEl: any;
+  handleSubmit: any;
+  register: any;
+  formState: any;
+  onClickSubmit: () => void;
 }
