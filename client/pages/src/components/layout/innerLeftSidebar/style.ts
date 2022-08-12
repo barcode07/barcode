@@ -10,7 +10,7 @@ export const HTML = styled.div`
 
 export const Header = styled.div`
   width: 100%;
-  height: 80px;
+  height: 60px;
   background-color: #2f3136;
   /* background-color: white; */
   border-top-left-radius: 15px;
@@ -24,7 +24,7 @@ export const Header = styled.div`
 
 export const Body = styled.div`
   width: 100%;
-  height: calc(100% - 320px);
+  height: calc(100% - 300px);
   display: flex;
   flex-direction: column;
   background-color: #2f3136;
@@ -151,6 +151,20 @@ export const InnerText = styled.input`
   height: 40px;
   border-radius: 8px;
   background-color: #23272a;
+  border: none;
+  padding-left: 10px;
+  color: white;
+  font-weight: 500;
+  outline: none;
+  ::placeholder {
+    color: white;
+    opacity: 0.5;
+  }
+`;
+
+export const ServerName = styled.div`
+  width: 100%;
+  border-radius: 8px;
   border: none;
   padding-left: 10px;
   color: white;

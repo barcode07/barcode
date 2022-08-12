@@ -1,9 +1,28 @@
 import * as IR from "./style";
+import { v4 as uuid4 } from "uuid";
 
-export default function InnerRightSideBarPresenter() {
+interface IRightSideBarProps {
+  dummy: { name: string; member: string[] }[];
+  serverName: string;
+}
+
+export default function InnerRightSideBarPresenter(props: IRightSideBarProps) {
+  console.log(props.dummy);
+  const memberList = props.dummy.filter((el) => el.name === props.serverName);
+  console.log(memberList);
   return (
     <IR.HTML>
-      <IR.Body>라이트사이드바</IR.Body>
+      <IR.Body>
+        <IR.MemberList>
+          {memberList[0].name === props.serverName ? (
+            memberList[0].member.map((el) => (
+              <IR.MemberName key={uuid4()}>{el}</IR.MemberName>
+            ))
+          ) : (
+            <></>
+          )}
+        </IR.MemberList>
+      </IR.Body>
     </IR.HTML>
   );
 }

@@ -4,6 +4,7 @@ import React from "react";
 
 interface IInnerLeftSideBarProps {
   inServer: boolean;
+  serverName: string;
   opened: string[];
   onClickGroupOpen: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
@@ -15,18 +16,18 @@ const list = [
   { name: "이수경" },
   { name: "김선우" },
   { name: "정하일" },
-  { name: "백승재" },
-  { name: "이수경" },
-  { name: "김선우" },
-  { name: "정하일" },
-  { name: "백승재" },
-  { name: "이수경" },
-  { name: "김선우" },
-  { name: "정하일" },
-  { name: "백승재" },
-  { name: "이수경" },
-  { name: "김선우" },
-  { name: "정하일" },
+  { name: "김지수" },
+  { name: "여명현" },
+  { name: "송인호" },
+  { name: "백인호" },
+  { name: "조영래" },
+  { name: "안우엽" },
+  { name: "노원두" },
+  { name: "안효경" },
+  { name: "한주연" },
+  { name: "이영주" },
+  { name: "이승훈" },
+  { name: "이재홍" },
 ];
 
 const Group = [
@@ -70,7 +71,11 @@ export default function InnerLeftSideBarPresenter(
   return (
     <IL.HTML>
       <IL.Header>
-        <IL.InnerText placeholder="대화찾기 또는 시작하기" />
+        {props.inServer ? (
+          <IL.ServerName>{props.serverName}</IL.ServerName>
+        ) : (
+          <IL.InnerText placeholder="대화찾기 또는 시작하기" />
+        )}
       </IL.Header>
       <IL.Body>
         {props.inServer ? (

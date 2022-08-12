@@ -1,5 +1,15 @@
 import InnerRightSideBarPresenter from "./presenter";
 
-export default function InnerRightSideBarContainer() {
-  return <InnerRightSideBarPresenter />;
+interface IRightSideBarProps {
+  dummy: { name: string; member: string[] }[];
+  serverName: string;
+}
+
+export default function InnerRightSideBarContainer(props: IRightSideBarProps) {
+  return (
+    <InnerRightSideBarPresenter
+      dummy={props.dummy}
+      serverName={props.serverName}
+    />
+  );
 }
