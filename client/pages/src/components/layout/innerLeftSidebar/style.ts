@@ -62,12 +62,16 @@ export const ChannelGroup = styled.div`
   }
 `;
 
-export const GropName = styled.div`
+export const GroupName = styled.div`
   cursor: pointer;
   padding-bottom: 10px;
   :hover {
     color: white;
   }
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 `;
 
 export const channel = styled.div`
@@ -83,6 +87,10 @@ export const channel = styled.div`
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
   }
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 `;
 
 export const BodyUpperItemBox = styled.div``;
@@ -144,6 +152,10 @@ export const BodyUnderItem = styled.div`
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.1);
   }
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 `;
 
 export const InnerText = styled.input`
@@ -159,6 +171,10 @@ export const InnerText = styled.input`
   ::placeholder {
     color: white;
     opacity: 0.5;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
 `;
 
@@ -174,6 +190,10 @@ export const ServerName = styled.div`
     color: white;
     opacity: 0.5;
   }
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 `;
 
 export const Footer = styled.div`
@@ -186,16 +206,28 @@ export const Footer = styled.div`
 export const ProfileArea = styled.div`
   height: 80px;
   padding: 5px 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 `;
 
 export const StatusArea = styled.div`
   height: 80px;
   border-bottom: 1px solid #4c4c4c;
   padding: 5px 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 `;
 
 export const ProgramArea = styled.div`
   height: 80px;
   border-bottom: 1px solid #4c4c4c;
   padding: 5px 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 `;

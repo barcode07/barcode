@@ -7,9 +7,7 @@ interface IRightSideBarProps {
 }
 
 export default function InnerRightSideBarPresenter(props: IRightSideBarProps) {
-  console.log(props.dummy);
   const memberList = props.dummy.filter((el) => el.name === props.serverName);
-  console.log(memberList);
   return (
     <IR.HTML>
       <IR.Body>

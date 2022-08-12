@@ -33,9 +33,9 @@ const Wrapper = styled.div`
 
 const Bar = styled.div`
   width: 100%;
-  height: 35px;
+  height: 34px;
   /* padding-top: 2px; */
-  /* padding-left: 15px; */
+  padding-left: 15px;
   background-color: #23272a;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
