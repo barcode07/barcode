@@ -1,16 +1,15 @@
 import OutSideBarPresenter from "./presenter";
 
-const dummy = ["귀찮다", "어렵다", "구조가이게뭐냐"];
-
 interface IOutSideBarProps {
+  dummy: { name: string; member: string[] }[];
   onClickMoveToMain: () => void;
-  onClickMoveToChannel: () => void;
+  onClickMoveToChannel: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export default function OutSideBarContainer(props: IOutSideBarProps) {
   return (
     <OutSideBarPresenter
-      dummy={dummy}
+      dummy={props.dummy}
       onClickMoveToMain={props.onClickMoveToMain}
       onClickMoveToChannel={props.onClickMoveToChannel}
     />

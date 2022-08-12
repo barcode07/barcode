@@ -3,6 +3,7 @@ import InnerLeftSideBarPresenter from "./presenter";
 
 interface IInnerLeftSideBarProps {
   inServer: boolean;
+  serverName: string;
 }
 
 export default function InnerLeftSideBarContainer(
@@ -24,6 +25,7 @@ export default function InnerLeftSideBarContainer(
   return (
     <InnerLeftSideBarPresenter
       inServer={props.inServer}
+      serverName={props.serverName}
       opened={opened}
       onClickGroupOpen={onClickGroupOpen}
     />

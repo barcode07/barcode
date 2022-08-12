@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Body from "./body";
 import Header from "./Header";
@@ -43,7 +43,7 @@ const Bar = styled.div`
 
 const MainBox = styled.div`
   width: calc(100% - 400px);
-  height: calc(100% - 80px);
+  height: calc(100% - 60px);
 `;
 
 const BodyBox = styled.div`
@@ -53,10 +53,27 @@ const BodyBox = styled.div`
   flex-direction: row;
 `;
 
+const dummy = [
+  {
+    name: "귀찮다",
+    member: ["백승재", "김지수", "이수경", "김선우", "정하일"],
+  },
+  {
+    name: "어렵다",
+    member: ["여명현", "이재홍", "백인호", "송인호", "조영래"],
+  },
+  {
+    name: "구조가이게뭐냐",
+    member: ["노원두", "안우엽", "안효경", "이승훈", "이영주"],
+  },
+];
+
 export default function LayOut() {
   const [inServer, setInServer] = useState(false);
-  const onClickMoveToChannel = () => {
+  const [serverName, setServerName] = useState("");
+  const onClickMoveToChannel = (event: React.MouseEvent<HTMLDivElement>) => {
     setInServer(true);
+    setServerName((event.target as HTMLDivElement).innerText);
   };
   const onClickMoveToMain = () => {
     setInServer(false);
@@ -66,15 +83,20 @@ export default function LayOut() {
       <Bar>Bar code</Bar>
       <Wrapper>
         <OutSideBar
+          dummy={dummy}
           onClickMoveToMain={onClickMoveToMain}
           onClickMoveToChannel={onClickMoveToChannel}
         />
-        <InnerLeftSideBar inServer={inServer} />
+        <InnerLeftSideBar inServer={inServer} serverName={serverName} />
         <MainBox>
           <Header />
           <BodyBox>
             <Body inServer={inServer} />
-            {!inServer ? <></> : <InnerRightSideBar />}
+            {!inServer ? (
+              <></>
+            ) : (
+              <InnerRightSideBar serverName={serverName} dummy={dummy} />
+            )}
           </BodyBox>
         </MainBox>
       </Wrapper>

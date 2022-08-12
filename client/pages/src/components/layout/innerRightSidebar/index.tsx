@@ -1,5 +1,15 @@
 import InnerRightSideBarContainer from "./container";
 
-export default function InnerRightSideBar() {
-  return <InnerRightSideBarContainer />;
+interface IRightSideBarProps {
+  dummy: { name: string; member: string[] }[];
+  serverName: string;
+}
+
+export default function InnerRightSideBar(props: IRightSideBarProps) {
+  return (
+    <InnerRightSideBarContainer
+      dummy={props.dummy}
+      serverName={props.serverName}
+    />
+  );
 }
