@@ -1,5 +1,9 @@
 import InnerLeftSideBarContainer from "./container";
 
-export default function InnerLeftSideBar() {
-  return <InnerLeftSideBarContainer />;
+interface IInnerLeftSideBarProps {
+  inServer: boolean;
+}
+
+export default function InnerLeftSideBar(props: IInnerLeftSideBarProps) {
+  return <InnerLeftSideBarContainer inServer={props.inServer} />;
 }

@@ -4,6 +4,7 @@ export const HTML = styled.div`
   width: 100px;
   height: 100%;
   background-color: #23272a;
+  overflow: hidden;
 `;
 
 export const Header = styled.div`
@@ -35,4 +36,33 @@ export const example = styled.div`
   overflow: hidden;
   background-color: #4f545c;
   margin: 5px;
+  transition: 0.2s;
+  cursor: pointer;
+  :hover {
+    background-color: #5865f2;
+    border-radius: 35%;
+  }
+`;
+
+export const ItemBox = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  :hover {
+    border-left: 3px solid white;
+  }
+`;
+
+export const Bar = styled.div`
+  position: absolute;
+  top: 30px;
+  right: 94px;
+  width: 8px;
+  height: 40px;
+  background-color: white;
+  border-radius: 20px;
 `;

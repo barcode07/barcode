@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const HTML = styled.div`
-  width: ${(props: { rightBodyHide: boolean }) =>
-    !props.rightBodyHide ? "100%" : "calc(100% - 300px)"};
+  width: ${(props: { inServer: boolean }) =>
+    !props.inServer ? "100%" : "calc(100% - 300px)"};
   height: 100%;
-  background-color: rgba(79, 84, 92, 0.8);
+  background-color: #36393f;
 `;
 
 export const Body = styled.div`

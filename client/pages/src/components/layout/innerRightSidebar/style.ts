@@ -12,5 +12,5 @@ export const Body = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background-color: #4f545c;
+  background-color: #2f3136;
 `;

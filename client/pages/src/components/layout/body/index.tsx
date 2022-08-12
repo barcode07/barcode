@@ -1,9 +1,9 @@
 import BodyContainer from "./presenter";
 
 interface ILayOutBodyProps {
-  rightBarHide: boolean;
+  inServer: boolean;
 }
 
 export default function Body(props: ILayOutBodyProps) {
-  return <BodyContainer rightBarHide={props.rightBarHide} />;
+  return <BodyContainer inServer={props.inServer} />;
 }
