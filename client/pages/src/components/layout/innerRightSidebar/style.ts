@@ -25,8 +25,13 @@ export const MemberName = styled.div`
   align-items: center;
   font-size: 18px;
   color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
   :hover {
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
   }
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 `;

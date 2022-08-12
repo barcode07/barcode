@@ -12,6 +12,10 @@ export const Header = styled.div`
   height: 100px;
   background-color: #23272a;
   padding: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 `;
 
 export const Body = styled.div`
@@ -42,6 +46,10 @@ export const example = styled.div`
     background-color: #5865f2;
     border-radius: 35%;
   }
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 `;
 
 export const ItemBox = styled.div`

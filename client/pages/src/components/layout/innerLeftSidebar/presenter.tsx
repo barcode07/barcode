@@ -82,9 +82,9 @@ export default function InnerLeftSideBarPresenter(
           <IL.GroupBox>
             {Group.map((el) => (
               <IL.ChannelGroup key={uuidv4()}>
-                <IL.GropName onClick={props.onClickGroupOpen} id={el.id}>
+                <IL.GroupName onClick={props.onClickGroupOpen} id={el.id}>
                   # {el.name}
-                </IL.GropName>
+                </IL.GroupName>
                 {props.opened.includes(el.id) ? (
                   <div>
                     {el.list.voice.map((el) => (
