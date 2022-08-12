@@ -11,35 +11,41 @@ export const Wrapper = styled.div`
   background-position: center;
 `;
 
-export const LoginWrapper = styled.div`
+export const SignupWrapper = styled.div`
   width: calc(100% - 30%);
-  height: 500px;
+  height: 540px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   border: 1px solid #999999;
   border-radius: 40px;
-  padding: 50px;
+  padding: 10px 50px;
   background: #f5f5f5;
-  margin-top: -130px;
+  margin-top: -140px;
   margin-left: auto;
   margin-right: auto;
-  /* position: absolute;
-  top: 120px;
-  left: 240px; */
 `;
 
 export const Title = styled.h1``;
 
-// 로그인
-export const LoginEmailWrapper = styled.div`
+//  사용자 이름
+export const SignupUserNameWrapper = styled.div`
   width: 100%;
 `;
+
+//  회워가입 아이디
+export const SignupEmailWrapper = styled.div`
+  width: 100%;
+  padding-top: 10px;
+`;
+
 export const Label = styled.div`
   font-size: 20px;
   font-weight: 500;
+  padding-bottom: 5px;
 `;
+
 export const Input = styled.input`
   width: 100%;
   height: 50px;
@@ -56,28 +62,31 @@ export const Input = styled.input`
     color: transparent;
   }
 `;
+
 export const LoginPasswordWrapper = styled.div`
   width: 100%;
+  padding-top: 10px;
 `;
 
-// 회원가입 이동
-export const SignUpWrapper = styled.div`
+// 로그인창 이동
+export const LoginWrapper = styled.div`
   width: 100%;
   display: flex;
+  padding-top: 10px;
 `;
-export const SignUpTitle = styled.div`
+export const LoginTitle = styled.div`
   font-size: 20px;
 `;
-export const SignUp = styled.div`
+export const Login = styled.div`
   font-size: 20px;
   margin-left: 30px;
   cursor: pointer;
 `;
 
-// 로그인 버튼
-export const LoginButton = styled.button`
+// 회원가입 버튼
+export const SignupButton = styled.button`
   width: calc(100% - 30%);
-  height: 50px;
+  height: 60px;
   border: none;
   border-radius: 20px;
   font-size: 30px;
