@@ -21,11 +21,13 @@ public class UserLoginDto {
     private static final long serialVersionUID = 1L;
 
     @NotEmpty
-    @Pattern(regexp="(?=.*\\d{1,20})(?=.*[~`!@#$%^&*()-+=]{1,20})(?=.*[a-z]{1,20})(?=.*[A-Z]{1,20})[a-zA-Z0-9~`!@#$%^&*()-+=]{8,20}$"
-            ,message="8~16자리로 최소 소문자1개, 대문자1개, 숫자1개, 특수문자1개로 구성되야합니다.")
-    private String password;
-    @NotEmpty
     @Pattern(regexp="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$",
             message="example@test.com과 같은 이메일 형식이 아닙니다.")
     private String email;
+
+    @NotEmpty
+    @Pattern(regexp="(?=.*\\d{1,20})(?=.*[~`!@#$%^&*()-+=]{1,20})(?=.*[a-z]{1,20})(?=.*[A-Z]{1,20})[a-zA-Z0-9~`!@#$%^&*()-+=]{8,15}$"
+            ,message="8~15자리로 최소 소문자1개, 대문자1개, 숫자1개, 특수문자1개로 구성되야합니다.")
+    private String password;
+
 }

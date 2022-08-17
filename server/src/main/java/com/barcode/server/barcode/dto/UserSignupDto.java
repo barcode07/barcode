@@ -1,5 +1,6 @@
 package com.barcode.server.barcode.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -17,24 +18,25 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
+@Schema(description = "사용자")
 public class UserSignupDto {
     private static final long serialVersionUID = 1L;
 
     @NotEmpty
-    @Pattern(regexp="[a-zA-Z0-9]{8,12}",message="비밀번호는 영어 소문자,대문자,숫자로 8자리이상 12자리이하로 구성됩니다.")
-    private String cuid;
-    @NotEmpty
-    @Pattern(regexp="(?=.*\\d{1,20})(?=.*[~`!@#$%^&*()-+=]{1,20})(?=.*[a-z]{1,20})(?=.*[A-Z]{1,20})[a-zA-Z0-9~`!@#$%^&*()-+=]{8,20}$"
-            ,message="8~16자리로 최소 소문자1개, 대문자1개, 숫자1개, 특수문자1개로 구성되야합니다.")
-    private String password;
-    @NotEmpty
+    @Schema(description = "이메일", nullable = false, example = "dobby@dobby.com")
     @Pattern(regexp="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$",
             message="example@test.com과 같은 이메일 형식이 아닙니다.")
     private String email;
+
     @NotEmpty
-    @Pattern(regexp="[w|m]",message="m이나 w의 값이 들어와야 합니다.")
-    private String gender;
+    @Schema(description = "비밀번호", nullable = false, example = "P@ssw0rd!")
+    @Pattern(regexp="(?=.*\\d{1,15})(?=.*[~`!@#$%^&*()-+=]{1,15})(?=.*[a-zA-Z]{1,15})[a-zA-Z0-9~`!@#$%^&*()-+=]{8,15}$"
+            ,message="8~15자리로 최소 영문1개, 숫자1개, 특수문자1개로 구성되야합니다.")
+    private String password;
+
     @NotEmpty
-    @Pattern(regexp="^(19[0-9][0-9]|20[0-9]{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$",message="올바른 8자리의 숫자로 구성되야합니다.")
-    private String birthDate;
+    @Schema(description = "닉네임", nullable = false, example = "홍길동123aA")
+    @Pattern(regexp="^[가-힣a-zA-Z0-9]{2,8}$"
+            ,message="한글,숫자,영문으로 2~8글자 사이로 구성되었습니다.")
+    private String nickname;
 }
