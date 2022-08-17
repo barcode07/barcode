@@ -35,7 +35,7 @@ public class UserSignupDto {
     private String password;
 
     @NotEmpty
-    @Schema(description = "닉네임", nullable = false, example = "홍길동123aA")
+    @Schema(description = "닉네임", nullable = false, example = "도비")
     @Pattern(regexp="^[가-힣a-zA-Z0-9]{2,8}$"
             ,message="한글,숫자,영문으로 2~8글자 사이로 구성되었습니다.")
     private String nickname;

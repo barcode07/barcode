@@ -1,21 +1,17 @@
 package com.barcode.server.barcode.service;
 
 import com.barcode.server.barcode.dao.User;
-import com.barcode.server.barcode.dto.TokenDto;
 import com.barcode.server.barcode.dto.UserLoginDto;
 import com.barcode.server.barcode.dto.UserSignupDto;
 import com.barcode.server.barcode.repository.UserRepository;
-import com.barcode.server.commonDto.ResponseDataDto;
-import com.barcode.server.commonDto.ResponseErrorDto;
-import com.barcode.server.commonDto.ResponseErrorsDto;
-import com.barcode.server.commonDto.ResponseStatusDto;
+import com.barcode.server.commonDto.*;
 import com.barcode.server.jwt.JwtTokenManager;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -43,6 +39,7 @@ public class UserService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private JwtTokenManager jwtTokenManager;
+    private AuthenticationManager authenticationManager;
 
     public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, JwtTokenManager jwtTokenManager) {
         this.userRepository = userRepository;
@@ -81,6 +78,38 @@ public class UserService {
                 .nickname(userSignupDto.getNickname())
                 .email(userSignupDto.getEmail()).build());
         return ResponseEntity.ok().body(new ResponseStatusDto(200,"회원가입 성공"));
+    }
+
+    @Transactional
+    public ResponseEntity login(UserLoginDto userLoginDto, HttpServletResponse response){
+        try {
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(userLoginDto.getEmail(), userLoginDto.getPassword()));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//            UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
+//            return principal.getUsername();
+        User user = userRepository.findByEmail(userLoginDto.getEmail()).get();
+            if (user.getEmail() == null) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseErrorDto(400, "존재하지 않는 이메일 입니다."));
+            } else if (!bCryptPasswordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseErrorDto(400, "비밀번호가 일치하지 않습니다."));
+            }
+            String accessToken = jwtTokenManager.createAccessToken(user);
+            jwtTokenManager.createRefreshToken(user, response);
+
+
+        return ResponseEntity.ok().body(new ResponseTokenDto(200,"로그인이 성공적으로 되었습니다.",accessToken));
+        } catch(Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new ResponseErrorDto(400,"잘못되었습니다."));
+        }
+    }
+
+    public ResponseEntity logout(HttpServletResponse response) {
+        jwtTokenManager.deleteRefreshToken(response);
+        return ResponseEntity.ok().body(new ResponseStatusDto(200,"성공적으로 로그아웃이 되었습니다."));
     }
 }
 

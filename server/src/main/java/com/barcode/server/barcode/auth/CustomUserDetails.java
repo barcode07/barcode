@@ -1,6 +1,10 @@
 package com.barcode.server.barcode.auth;
 
 import com.barcode.server.barcode.dao.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,46 +20,31 @@ import java.util.Collections;
  * Date : 2022-08-15
  * Description :
  */
-public class UserDetailsImpl implements UserDetails {
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CustomUserDetails implements UserDetails {
     private static final long serrialVersionUID = 1L;
-    private final User user;
-    private static final String ROLE_PREFIX = "ROLE_";
 
-    public UserDetailsImpl(User user){
-        this.user=user;
-    }
+    private String username;
+    private String password;
+    @Builder.Default
+    private boolean isEnabled = true;
+    @Builder.Default
+    private boolean isAccountNonExpired = true;
+    @Builder.Default
+    private boolean isAccountNonLocked = true;
+    @Builder.Default
+    private boolean isCredentialsNonExpired = true;
+    private Collection<? extends GrantedAuthority> authorities;
 
-    @Override
-    public String getPassword(){
-        return user.getPassword();
-    }
-    @Override
-    public String getUsername(){
-        return user.getEmail();
-    }
-    @Override
-    public boolean isAccountNonExpired(){
-        return true;
-    }
-    @Override
-    public boolean isAccountNonLocked(){
-        return true;
-    }
-    @Override
-    public boolean isCredentialsNonExpired(){
-        return true;
-    }
-    @Override
-    public boolean isEnabled(){
-        return true;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities(){
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
-        Collection<GrantedAuthority> authorities = new ArrayList<>(); //List인 이유 : 여러개의 권한을 가질 수 있다
-        authorities.add(authority);
-        return authorities;
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities(){
+//        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
+//        Collection<GrantedAuthority> authorities = new ArrayList<>(); //List인 이유 : 여러개의 권한을 가질 수 있다
+//        authorities.add(authority);
+//        return authorities;
+//    }
 
 }

@@ -58,6 +58,38 @@ public class UserController {
         return userService.signup(userSignupDto);
     }
 
+    @ApiOperation(value = "로그인", notes="로그인 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ResponseEntity.class ))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = ResponseEntity.class ))),
+            @ApiResponse(responseCode = "404", description = "잘못된 접근입니다."),
+            @ApiResponse(responseCode = "500", description = "서버 에러"),
+    })
+    @RequestMapping(value="/user/login", method=RequestMethod.POST)
+    public ResponseEntity userLogin(@Valid @RequestBody UserLoginDto userLoginDto, BindingResult bindingResult, HttpServletResponse response) {
+        if(bindingResult.getFieldErrorCount()>0) {
+            return userService.validateLoginParameter(bindingResult);
+        }
+        return userService.login(userLoginDto, response);
+    }
+
+
+    @ApiOperation(value = "로그아웃", notes="로그아웃 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ResponseEntity.class ))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = ResponseEntity.class ))),
+            @ApiResponse(responseCode = "404", description = "잘못된 접근입니다."),
+            @ApiResponse(responseCode = "500", description = "서버 에러"),
+    })
+    @RequestMapping(value="/user/logout", method=RequestMethod.POST)
+    public ResponseEntity userLogout(HttpServletResponse response) {
+        return userService.logout(response);
+    }
+
+    @RequestMapping(value="/user/test", method=RequestMethod.GET)
+    public String userTest(HttpServletResponse response) {
+        return "테스트 성공";
+    }
 
 }
 

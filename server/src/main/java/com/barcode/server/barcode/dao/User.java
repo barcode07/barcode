@@ -42,8 +42,9 @@ public class User {
     @Column(unique = true, length = 30)
     private String nickname;
 
-//    @Enumerated(EnumType.STRING)
-//    private UserRole userRole;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Role role = Role.ROLE_USER;
 
     @Column(name = "access_yn", insertable = false, nullable = false, columnDefinition = "tinyint(1) default 1")
     @Builder.Default
