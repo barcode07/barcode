@@ -74,3 +74,29 @@ export const Bar = styled.div`
   background-color: white;
   border-radius: 20px;
 `;
+
+export const AddChannel = styled.div`
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #4f545c;
+  margin: 5px;
+  transition: 0.2s;
+  color: #57f287;
+  font-size: 50px;
+  line-height: 60px;
+  cursor: pointer;
+  :hover {
+    background-color: #3ba55c;
+    border-radius: 35%;
+    color: white;
+  }
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+`;
