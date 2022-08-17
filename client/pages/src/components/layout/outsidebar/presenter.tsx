@@ -20,6 +20,7 @@ export default function OutSideBarPresenter(props: IOutSideBarPProps) {
             </OS.example>
           </OS.ItemBox>
         ))}
+        <OS.AddChannel>+</OS.AddChannel>
       </OS.Body>
     </OS.HTML>
   );
