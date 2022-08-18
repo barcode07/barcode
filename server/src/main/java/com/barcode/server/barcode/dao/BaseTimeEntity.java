@@ -28,13 +28,9 @@ public class BaseTimeEntity {
     @Column(name="create_at", nullable = false, columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Column(name="modified_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-    private LocalDateTime modifiedAt;
+    @Column(name="updated_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    private LocalDateTime updateddAt;
 
-    @Column(name="delete_at", nullable = false, columnDefinition = "DATETIME NOT NULL DEFAULT '9999-12-31 23:59:59'")
+    @Column(name="delete_at", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
     private LocalDateTime deleteAt;
-
-    @Column(name="access_yn", insertable = false ,nullable = false, columnDefinition = "tinyint(1) default 1")
-    private Boolean accessYn;
-
 }

@@ -2,12 +2,23 @@ plugins {
 	id 'org.springframework.boot' version '2.7.2'
 	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 	id 'java'
-	id 'war'
+	id 'war' // war plugin 추가
 }
 
 group = 'com.barcode'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+apply plugin: 'war'
+bootWar {
+//	archiveBaseName='barcode'
+//	archiveFileName='barcode.war'
+	archiveName("barcode_server.war")
+	archiveVersion = "0.0.0"
+}
+bootWar.enabled = true
+war.enabled = false
+
 
 configurations {
 	compileOnly {
@@ -25,6 +36,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'

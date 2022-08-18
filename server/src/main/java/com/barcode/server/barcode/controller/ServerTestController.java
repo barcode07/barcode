@@ -17,7 +17,7 @@ public class ServerTestController {
 
     LocalDateTime localDateTime = LocalDateTime.now();
 
-    @RequestMapping("/")
+    @RequestMapping("/test")
     public String index() throws Exception{
         return localDateTime.toString();
     }
