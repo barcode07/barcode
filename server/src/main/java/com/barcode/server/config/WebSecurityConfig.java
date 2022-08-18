@@ -1,15 +1,16 @@
 
 package com.barcode.server.config;
+import com.barcode.server.jwt.JwtAuthenticationFilter;
+import com.barcode.server.jwt.JwtFilter;
+import com.barcode.server.jwt.JwtTokenManager;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -20,40 +21,52 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         jsr250Enabled = true,
         prePostEnabled = true
 )
+@AllArgsConstructor
 public class WebSecurityConfig {
+
+    private final JwtTokenManager jwtTokenManager;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(WebSecurity web) {
-//        web.ignoring().mvcMatchers("/error, /swagger-ui, /swagger/**, /swagger-resources/**");
-//        return web.build();
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+    return (web) -> web.ignoring().mvcMatchers("/error", "/swagger-ui/**","/swagger-ui.html", "/swagger/**", "/swagger-resources/**","/v3/api-docs","/v3/api-docs/**","/**/*.png",
+        "/**/*.gif",
+        "/**/*.svg",
+        "/**/*.jpg",
+        "/**/*.html",
+        "/**/*.css",
+        "/**/*.js");
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .mvcMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                .antMatchers("/",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js").permitAll()
-        ;
-
         http
+//                .httpBasic().disable()
                 .cors().disable()
                 .csrf().disable()
                 .formLogin().disable()
                 .headers()
                 .frameOptions()
-                .sameOrigin();
+                .sameOrigin()
+//                .defaultAccessDeniedHandlerFor()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/**").permitAll()
+//                .antMatchers("/user/**").permitAll()
+//                .antMatchers("/test").hasRole("USER")
+                .anyRequest().authenticated()
+                .and()
+//               첫번째 인자로 필터를 넣어주고, 두번째 인자로 어떤 필터전에 실행 시킬지 필터를 넣어준다.
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenManager), UsernamePasswordAuthenticationFilter.class);
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//                .exceptionHandling()
+//                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                .and()
+//                .apply(new JwtSecurityConfig(jwtTokenManager))
 
 //        			.authorizeRequests()
 //                .antMatchers("/api/members/signup", "/api/members/signin").permitAll()
@@ -77,8 +90,6 @@ public class WebSecurityConfig {
 //                .exceptionHandling()
 //                .accessDeniedHandler(accessDeniedHandler())
 //                .authenticationEntryPoint(authenticationEntryPoint())
-//                .and()
-//                .addFilterBefore(jwtAuthenticationFilter(jwt, tokenService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
