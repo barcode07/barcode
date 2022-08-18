@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 //        jsr250Enabled = true,
 //        prePostEnabled = true
 //)
-public class MethodSecurity extends GlobalMethodSecurityConfiguration {
+//public class MethodSecurity extends GlobalMethodSecurityConfiguration {
 //    @Override
 //    protected AccessDecisionManager accessDecisionManager() {
 //        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
@@ -25,4 +25,4 @@ public class MethodSecurity extends GlobalMethodSecurityConfiguration {
 //        accessDecisionManager.getDecisionVoters().add(new RoleHierarchyVoter(roleHierarchy));
 //        return accessDecisionManager;
 //    }
-}
+//}

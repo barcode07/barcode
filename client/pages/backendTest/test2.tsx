@@ -23,7 +23,7 @@ const Test2 = () => {
       },
     })
       .then((res) => {
-        console.log(res.data.accessToken);
+        console.log(res.data);
         alert("로그인에 성공하였습니다.");
       })
       .catch((err) => {

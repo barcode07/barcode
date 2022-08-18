@@ -1,11 +1,20 @@
 package com.barcode.server.jwt;
 
+import com.barcode.server.barcode.auth.CustomUserDetailsService;
 import com.barcode.server.barcode.dao.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.time.LocalDateTime;
@@ -24,39 +33,64 @@ public class JwtTokenManager {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            // 30분
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
+    private static final int ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60;            // 60분
+    private static final int REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14;  // 14일
     private byte[] encodingKey = DatatypeConverter.parseBase64Binary("E2BBFD358D01113E9563FB3865582DA90D056C658099DEB46F2FFF95BC67C2EC");
     private Key key = Keys.hmacShaKeyFor(encodingKey);
+//    private final UserDetailsService userDetailsService;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
-        public String createAccessToken(User user) {
-        LocalDateTime localDateTime = LocalDateTime.now().plusDays(1);
-        Date date = java.sql.Timestamp.valueOf(localDateTime);
-        return Jwts.builder()
-                .setHeaderParam("typ","JWT")
-                .setIssuedAt(new Date())
-                .setExpiration(date) // 토큰 만료 시간
-                .setNotBefore(new Date()) // 토큰 활성 날짜
-                .claim("email",user.getEmail()) //미등록 클레임
-                .signWith(key)
-                .compact(); // 설정끝
+//    public JwtTokenManager(@Qualifier("userUserDetailsService") UserDetailsService userDetailsService) {
+//        this.userDetailsService = userDetailsService;
+//    }
+
+    public String createAccessToken(User user) {
+    LocalDateTime localDateTime = LocalDateTime.now().plusHours(1);
+    Date date = java.sql.Timestamp.valueOf(localDateTime);
+    return Jwts.builder()
+            .setHeaderParam("typ","JWT")
+            .setIssuedAt(new Date())
+            .setExpiration(date) // 토큰 만료 시간
+            .setNotBefore(new Date()) // 토큰 활성 날짜
+            .claim("email",user.getEmail()) //미등록 클레임
+            .claim("role",user.getRole())
+            .signWith(key)
+            .compact(); // 설정끝
     }
 
-    public String createRefreshToken(User user) {
+    public void createRefreshToken(User user, HttpServletResponse response) {
         LocalDateTime localDateTime = LocalDateTime.now().plusMonths(1);
         Date date = java.sql.Timestamp.valueOf(localDateTime);
-        return Jwts.builder()
+
+        Cookie myCookie = new Cookie("refreshToken", Jwts.builder()
                 .setHeaderParam("typ","JWT")
                 .setIssuedAt(new Date())
                 .setExpiration(date) // 토큰 만료 시간
                 .setNotBefore(new Date()) // 토큰 활성 날짜
                 .claim("email",user.getEmail()) //미등록 클레임
+                .claim("role",user.getRole())
                 .signWith(key)
-                .compact(); // 설정끝
+                .compact());
+                myCookie.setMaxAge(REFRESH_TOKEN_EXPIRE_TIME);
+                myCookie.setPath("/"); // 모든 경로에서 접근 가능 하도록 설정
+                myCookie.setHttpOnly(true);
+                myCookie.setSecure(true);
+                response.addCookie(myCookie);
+    }
+
+    public void deleteRefreshToken( HttpServletResponse response) {
+        Cookie myCookie = new Cookie("refresh", null);
+        myCookie.setMaxAge(0); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
+        myCookie.setPath("/"); // 모든 경로에서 삭제 됬음을 알린다.
+        myCookie.setHttpOnly(true);
+        myCookie.setSecure(true);
+        response.addCookie(myCookie);
     }
 
     public boolean validateToken(String token) {
         try {
+            System.out.println("token : "+token);
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
@@ -79,6 +113,13 @@ public class JwtTokenManager {
         }
     }
 
+    public Authentication getAuthentication(String token) {
+        System.out.println("token : " + token);
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername("dobby@dobby.com");
+        System.out.println("userDetails : " + userDetails);
+        return new UsernamePasswordAuthenticationToken("dobby@dobby.com",null,
+                customUserDetailsService.getAuthorities("dobby@dobby.com"));
+    }
 }
 
 
