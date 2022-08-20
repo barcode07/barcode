@@ -31,16 +31,16 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-    return (web) -> web.ignoring().mvcMatchers("/error", "/swagger-ui/**","/swagger-ui.html", "/swagger/**", "/swagger-resources/**","/v3/api-docs","/v3/api-docs/**","/**/*.png",
-        "/**/*.gif",
-        "/**/*.svg",
-        "/**/*.jpg",
-        "/**/*.html",
-        "/**/*.css",
-        "/**/*.js");
-    }
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//    return (web) -> web.ignoring().mvcMatchers("/error", "/swagger-ui/**","/swagger-ui.html", "/swagger/**", "/swagger-resources/**","/v3/api-docs","/v3/api-docs/**","/**/*.png",
+//        "/**/*.gif",
+//        "/**/*.svg",
+//        "/**/*.jpg",
+//        "/**/*.html",
+//        "/**/*.css",
+//        "/**/*.js");
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -56,9 +56,10 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
+                .antMatchers("/error", "/swagger-ui/**","/swagger-ui.html","/swagger/**", "/swagger-resources/**","/v3/api-docs","/v3/api-docs/**","/**/*.png","/**/*.gif","/**/*.svg","/**/*.jpg","/**/*.html","/**/*.css","/**/*.js").permitAll()
 //                .antMatchers("/user/**").permitAll()
 //                .antMatchers("/test").hasRole("USER")
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
 //               첫번째 인자로 필터를 넣어주고, 두번째 인자로 어떤 필터전에 실행 시킬지 필터를 넣어준다.
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenManager), UsernamePasswordAuthenticationFilter.class);
@@ -66,7 +67,7 @@ public class WebSecurityConfig {
 //                .exceptionHandling()
 //                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
 //                .and()
-//                .apply(new JwtSecurityConfig(jwtTokenManager))
+//                .apply(new JwtSecurityConfig(jwtTokenManager));
 
 //        			.authorizeRequests()
 //                .antMatchers("/api/members/signup", "/api/members/signin").permitAll()

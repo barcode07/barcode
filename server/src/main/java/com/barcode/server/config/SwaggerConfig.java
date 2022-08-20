@@ -12,6 +12,10 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * PackageName : com.example.ssssksss_blog.config
@@ -22,12 +26,16 @@ import springfox.documentation.spring.web.plugins.Docket;
  */
 //http://localhost:8080/swagger-ui/
 @Configuration
-public class SwaggerConfig {
+// 하도 안되서 추가하였는데 모르겠다...
+//@EnableWebMvc // 이거 넣으면 한글이 꺠진다...
+public class SwaggerConfig{
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.OAS_30)
                 .useDefaultResponseMessages(false)
+                .consumes(getConsumeContentTypes())
+                .produces(getProduceContentTypes())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.barcode.server.barcode.controller"))
                 .paths(PathSelectors.any())
@@ -47,6 +55,21 @@ public class SwaggerConfig {
                 .description("barcode swaager api docs") // 설명
                 .version("1.0") // version 보이는것
                 .build();
+    }
+
+    // (안됨)
+    private Set<String> getConsumeContentTypes() {
+        Set<String> consumes = new HashSet<>();
+        consumes.add("application/json;charset=UTF-8");
+        consumes.add("application/x-www-form-urlencoded");
+        return consumes;
+    }
+
+    // content-type이 제대로 작동이 되지 않아서 추가하였다.(안됨)
+    private Set<String> getProduceContentTypes() {
+        Set<String> produces = new HashSet<>();
+        produces.add("application/json;charset=UTF-8");
+        return produces;
     }
 }
 
@@ -78,17 +101,17 @@ public class SwaggerConfig {
 //    @Bean
 //    public Docket api() {
 //
-////        Server serverLocal = new Server("local", "http://localhost:8080", "for local usages", Collections.emptyList(), Collections.emptyList());
-////        Server devServer = new Server("test", "http://barcode-server.ssssksss.xyz", "for testing", Collections.emptyList(), Collections.emptyList());
-////        return new Docket(DocumentationType.OAS_30)
-////                .servers(serverLocal,devServer)
-////                .ignoredParameterTypes(AuthenticationPrincipal.class)
-////                .apiInfo(apiInfo()) // API Docu 및 작성자 정보 매핑
-////                .select()
-////                .apis(RequestHandlerSelectors.basePackage("com.barcode.server.barcode.controller"))
-////                .paths(PathSelectors.any()) // controller package 전부
-////                .build()
-////                .useDefaultResponseMessages(false);
+//        Server serverLocal = new Server("local", "http://localhost:8080", "for local usages", Collections.emptyList(), Collections.emptyList());
+//        Server devServer = new Server("test", "http://barcode-server.ssssksss.xyz", "for testing", Collections.emptyList(), Collections.emptyList());
+//        return new Docket(DocumentationType.OAS_30)
+//                .servers(serverLocal,devServer)
+//                .ignoredParameterTypes(AuthenticationPrincipal.class)
+//                .apiInfo(apiInfo()) // API Docu 및 작성자 정보 매핑
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com.barcode.server.barcode.controller"))
+//                .paths(PathSelectors.any()) // controller package 전부
+//                .build()
+//                .useDefaultResponseMessages(false);
 //
 //        //////////////////////////////////////////////////////////////////////
 //

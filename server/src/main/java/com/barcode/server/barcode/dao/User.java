@@ -7,6 +7,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * PackageName : com.example.ssssksss_blog.blog.dao
@@ -30,9 +32,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(nullable = false, columnDefinition = "varchar(255) DEFAULT 'null'")
-//    @Builder.Default private String suid="null";
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -50,7 +49,20 @@ public class User {
     @Builder.Default
     private Boolean accessYn = true;
 
+    @Column(name = "isConnected", insertable = false, nullable = false, columnDefinition = "tinyint(1) default 1")
+    @Builder.Default
+    private Boolean isConnected = false;
+
     @Embedded
     private BaseTimeEntity baseTimeEntity;
+
+    @OneToMany(mappedBy = "userId", fetch=FetchType.LAZY)
+    @Builder.Default
+    private List<Server> server = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userId", fetch=FetchType.LAZY)
+    @Builder.Default
+    private List<Team> team = new ArrayList<>();
+
 }
 
