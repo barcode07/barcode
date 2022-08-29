@@ -5,6 +5,7 @@ interface IOutSideBarPProps {
   dummy: { name: string; member: string[] }[];
   onClickMoveToMain: () => void;
   onClickMoveToChannel: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onClickCreateServer: () => void;
 }
 
 export default function OutSideBarPresenter(props: IOutSideBarPProps) {
@@ -20,7 +21,7 @@ export default function OutSideBarPresenter(props: IOutSideBarPProps) {
             </OS.example>
           </OS.ItemBox>
         ))}
-        <OS.AddChannel>+</OS.AddChannel>
+        <OS.AddChannel onClick={props.onClickCreateServer}>+</OS.AddChannel>
       </OS.Body>
     </OS.HTML>
   );

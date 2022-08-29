@@ -3,17 +3,19 @@ import axios from "axios";
 const AxiosInstance = axios.create({
   //baseURL: 'http://localhost:8080',
   //timeout: 1000,
-  baseURL: "http://barcode-server.ssssksss.xyz",
+  baseURL: "http://152.70.234.5:8080",
   headers: {
+    withCredentials: true,
     "Content-Type": "application/json",
     // 프론트엔드에서 Cors 문제를 해결하기 위한 방법
     // 아래 withCredentials하고 allow-Origin 정도만 해주면 프론트엔드에서 Cors문제는 해결되었다고 보면된다.
     // 안된다면 백엔드분들을 달달 볶으면 된다.
     "Access-Control-Allow-Origin": "*",
+    Authorization:
+      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE2NjE3NzY2NjcsImV4cCI6MTY2NDQ1NTA2NywibmJmIjoxNjYxNzc2NjY3LCJlbWFpbCI6ImRvYmJ5QGRvYmJ5LmNvbSIsInJvbGUiOiJST0xFX1VTRVIifQ.J-EJ-PYa_eZRmHwXBDRAT8uxHHEqI1XUSKHta7-axwpOMyqalrTYKfYh4nVSPr_O",
   },
   // 프론트 엔드에서 withCredentials을 해주지 않는다면
   // 쿠키가 저장이 되지 않는다. 그리고 백엔드에서도 withCredentials을 true로 설정을 해주어야한다.
-  withCredentials: true,
 });
 
 // axios의 인터셉터라고 하여 axios에서 응답을 보내고 요청을 받을때 처리를 해주는 로직을 작성할 수 있다.
