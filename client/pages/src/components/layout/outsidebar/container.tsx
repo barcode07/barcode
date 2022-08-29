@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { createServer, getServer } from "./post";
 import OutSideBarPresenter from "./presenter";
 
 interface IOutSideBarProps {
@@ -7,11 +9,20 @@ interface IOutSideBarProps {
 }
 
 export default function OutSideBarContainer(props: IOutSideBarProps) {
+  const onClickCreateServer = () => {
+    createServer();
+  };
+
+  useEffect(() => {
+    getServer();
+  }, []);
+
   return (
     <OutSideBarPresenter
       dummy={props.dummy}
       onClickMoveToMain={props.onClickMoveToMain}
       onClickMoveToChannel={props.onClickMoveToChannel}
+      onClickCreateServer={onClickCreateServer}
     />
   );
 }
