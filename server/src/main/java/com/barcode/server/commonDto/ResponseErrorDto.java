@@ -23,5 +23,5 @@ public class ResponseErrorDto {
     private static final long serialVersionUID = 1L;
 
     private int statusCode;
-    private String errorMsg;
+    private String msg;
 }

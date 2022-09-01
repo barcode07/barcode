@@ -46,17 +46,19 @@ public class JwtTokenManager {
 //    }
 
     public String createAccessToken(User user) {
-    LocalDateTime localDateTime = LocalDateTime.now().plusHours(1);
-    Date date = java.sql.Timestamp.valueOf(localDateTime);
-    return Jwts.builder()
-            .setHeaderParam("typ","JWT")
-            .setIssuedAt(new Date())
-            .setExpiration(date) // 토큰 만료 시간
-            .setNotBefore(new Date()) // 토큰 활성 날짜
-            .claim("email",user.getEmail()) //미등록 클레임
-            .claim("role",user.getRole())
-            .signWith(key)
-            .compact(); // 설정끝
+//    LocalDateTime localDateTime = LocalDateTime.now().plusSeconds(5);
+        LocalDateTime localDateTime = LocalDateTime.now().plusHours(1);
+//    LocalDateTime localDateTime = LocalDateTime.now().plusMonths(1);
+        Date date = java.sql.Timestamp.valueOf(localDateTime);
+        return Jwts.builder()
+                .setHeaderParam("typ","JWT")
+                .setIssuedAt(new Date())
+                .setExpiration(date) // 토큰 만료 시간
+                .setNotBefore(new Date()) // 토큰 활성 날짜
+                .claim("email",user.getEmail()) //미등록 클레임
+                .claim("role",user.getRole())
+                .signWith(key)
+                .compact(); // 설정끝
     }
 
     public void createRefreshToken(User user, HttpServletResponse response) {
@@ -72,11 +74,11 @@ public class JwtTokenManager {
                 .claim("role",user.getRole())
                 .signWith(key)
                 .compact());
-                myCookie.setMaxAge(REFRESH_TOKEN_EXPIRE_TIME);
-                myCookie.setPath("/"); // 모든 경로에서 접근 가능 하도록 설정
-                myCookie.setHttpOnly(true);
-                myCookie.setSecure(true);
-                response.addCookie(myCookie);
+        myCookie.setMaxAge(REFRESH_TOKEN_EXPIRE_TIME);
+        myCookie.setPath("/"); // 모든 경로에서 접근 가능 하도록 설정
+        myCookie.setHttpOnly(true);
+        myCookie.setSecure(true);
+        response.addCookie(myCookie);
     }
 
     public void deleteRefreshToken( HttpServletResponse response) {
@@ -116,6 +118,24 @@ public class JwtTokenManager {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername((String)parseClaims(token).get("email"));
         return new UsernamePasswordAuthenticationToken(parseClaims(token).get("email"),"null",
                 customUserDetailsService.getAuthorities((String)parseClaims(token).get("email")));
+<<<<<<< HEAD
+    }
+
+    public Claims validRefreshTokenAndReturnBody(String token) {
+        Claims claims = null;
+        try {
+            return claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        }catch(ExpiredJwtException | UnsupportedJwtException | MalformedJwtException |  IllegalArgumentException e) {
+        }
+        finally {
+            return  claims;
+        }
+=======
+>>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
     }
 }
 

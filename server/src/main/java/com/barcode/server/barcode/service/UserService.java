@@ -1,12 +1,16 @@
 package com.barcode.server.barcode.service;
 
+import com.barcode.server.barcode.dao.Role;
 import com.barcode.server.barcode.dao.User;
 import com.barcode.server.barcode.dto.UserLoginDto;
 import com.barcode.server.barcode.dto.UserSignupDto;
 import com.barcode.server.barcode.repository.UserRepository;
-import com.barcode.server.commonDto.*;
+import com.barcode.server.commonDto.ResponseErrorDto;
+import com.barcode.server.commonDto.ResponseErrorsDto;
+import com.barcode.server.commonDto.ResponseStatusDto;
+import com.barcode.server.commonDto.ResponseTokenDto;
 import com.barcode.server.jwt.JwtTokenManager;
-import org.springframework.beans.factory.annotation.Value;
+import io.jsonwebtoken.Claims;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
@@ -29,11 +34,11 @@ import java.util.HashMap;
 @Service
 public class UserService {
 
-    @Value("${jwt.jwtSecret}")
-    public static String jwtSecret;
-
-    @Value("${domain.cookie}")
-    public static String domainCookie;
+//    @Value("${jwt.jwtSecret}")
+//    public static String jwtSecret;
+//
+//    @Value("${domain.cookie}")
+//    public static String domainCookie;
 
 //    private String domain = "ssssksss.xyz";
     private UserRepository userRepository;
@@ -110,6 +115,29 @@ public class UserService {
     public ResponseEntity logout(HttpServletResponse response) {
         jwtTokenManager.deleteRefreshToken(response);
         return ResponseEntity.ok().body(new ResponseStatusDto(200,"성공적으로 로그아웃이 되었습니다."));
+    }
+
+
+    public ResponseEntity updateAccessToken(HttpServletRequest request) {
+//        System.out.println("========================================");
+//        System.out.println(request.getCookies()[0].getName());
+//        System.out.println(request.getCookies()[0].getValue());
+        String refreshToken = request.getCookies()[0].getValue();
+        Claims claims = jwtTokenManager.validRefreshTokenAndReturnBody(refreshToken);
+        System.out.println(claims);
+        System.out.println(claims.get("email"));
+        System.out.println(claims.get("role"));
+//        System.out.println(jwtTokenManager.createAccessToken(User.builder()
+//                .email((String)claims.get("email")).role(Role.valueOf((String)claims.get("role"))).build()));
+        String newAccessToken = jwtTokenManager.createAccessToken(User.builder()
+                .email((String)claims.get("email")).role(Role.valueOf((String)claims.get("role"))).build());
+//        System.out.println(newAccessToken.toString());
+//        System.out.println("========================================");
+        return ResponseEntity.ok().body(new ResponseTokenDto(200,"정상적으로 다시 액세스 토큰이 발급되었습니다.",newAccessToken));
+    }
+
+    public ResponseEntity userTest(HttpServletRequest request) {
+        return ResponseEntity.status(200).body(new ResponseStatusDto(200,"성공"));
     }
 }
 
