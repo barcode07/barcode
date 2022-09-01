@@ -28,9 +28,17 @@ public class Team {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="USER_ID")
+<<<<<<< HEAD
+    private User user;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="Server_ID")
+    private Server server;
+=======
     private User userId;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="Server_ID")
     private Server serverId;
+>>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
 }

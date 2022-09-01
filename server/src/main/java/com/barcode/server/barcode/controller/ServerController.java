@@ -3,12 +3,9 @@ package com.barcode.server.barcode.controller;
 import com.barcode.server.barcode.dto.ServerDto;
 import com.barcode.server.barcode.service.ServerService;
 import com.barcode.server.commonDto.ResponseErrorDto;
-import com.barcode.server.commonDto.ResponseStatusDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,11 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
-import javax.validation.Valid;
 
 /**
  * PackageName : com.barcode.server.barcode.controller
@@ -60,7 +54,8 @@ public class ServerController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(principal == null) {
             ResponseEntity.ok()
-                    .body(ResponseErrorDto.builder().statusCode(401).errorMsg("로그인이 필요합니다.").build());
+                    .body(ResponseErrorDto.builder().statusCode(401).msg("로그인이 필요합니다.").build());
+
         }
         return serverService.read((String)principal);
     }

@@ -1,24 +1,23 @@
 package com.barcode.server.barcode.controller;
+
 import com.barcode.server.barcode.dto.UserLoginDto;
 import com.barcode.server.barcode.dto.UserSignupDto;
 import com.barcode.server.barcode.service.UserService;
-import com.barcode.server.commonDto.ResponseDataDto;
-import com.barcode.server.commonDto.ResponseErrorDto;
-import com.barcode.server.commonDto.ResponseStatusDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -79,10 +78,30 @@ public class UserController {
     public ResponseEntity userLogout(HttpServletResponse response) {
         return userService.logout(response);
     }
+//
+//    @RequestMapping(value="/user/test", method=RequestMethod.GET)
+//    public String userTest(HttpServletResponse response) {
+//        return "테스트 성공";
+//    }
+
+
+    @ApiOperation(value = "리프레쉬 토큰발급", notes="리프레쉬 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ResponseEntity.class ))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = ResponseEntity.class ))),
+            @ApiResponse(responseCode = "404", description = "잘못된 접근입니다."),
+            @ApiResponse(responseCode = "500", description = "서버 에러"),
+    })
+    @RequestMapping(value="/user/accessToken", method=RequestMethod.GET)
+    public ResponseEntity userReissueAccessToken(HttpServletRequest request) {
+        System.out.println("/user/accessToken 까지는 오나요?");
+        return userService.updateAccessToken(request);
+    }
 
     @RequestMapping(value="/user/test", method=RequestMethod.GET)
-    public String userTest(HttpServletResponse response) {
-        return "테스트 성공";
+    public ResponseEntity userTest(HttpServletRequest request) {
+        System.out.println("잘 들어오나용????");
+        return userService.userTest(request);
     }
 
 }

@@ -16,6 +16,6 @@ public class ResponseErrorsDto {
     private static final long serialVersionUID = 1L;
 
     private int statusCode;
-    private HashMap<String,Object> errorMsgs;
+    private HashMap<String,Object> msgs;
 
 }

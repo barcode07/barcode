@@ -1,7 +1,5 @@
 package com.barcode.server.barcode.dao;
 
-import com.barcode.server.barcode.dto.UserRole;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -56,11 +54,19 @@ public class User {
     @Embedded
     private BaseTimeEntity baseTimeEntity;
 
+<<<<<<< HEAD
+    @OneToMany(mappedBy = "user", fetch=FetchType.LAZY)
+    @Builder.Default
+    private List<Server> server = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch=FetchType.LAZY)
+=======
     @OneToMany(mappedBy = "userId", fetch=FetchType.LAZY)
     @Builder.Default
     private List<Server> server = new ArrayList<>();
 
     @OneToMany(mappedBy = "userId", fetch=FetchType.LAZY)
+>>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
     @Builder.Default
     private List<Team> team = new ArrayList<>();
 

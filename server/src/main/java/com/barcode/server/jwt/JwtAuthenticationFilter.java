@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,7 +25,8 @@ import java.io.IOException;
  * Date : 2022-08-16
  * Description :
  */
-public class JwtAuthenticationFilter extends GenericFilterBean {
+//public class JwtAuthenticationFilter extends GenericFilterBean {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
@@ -34,20 +36,40 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         this.jwtTokenManager = jwtTokenManager;
     }
 
+//    @Override
+//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+//        String token = resolveToken((HttpServletRequest)request);
+//        if (token != null && jwtTokenManager.validateToken(token)) {   // token 검증
+//            System.out.println("토큰을 검증하고 인증객체를 생성");
+//            Authentication auth = jwtTokenManager.getAuthentication(token);    // 인증 객체 생성
+//            SecurityContextHolder.getContext().setAuthentication(auth); // SecurityContextHolder에 인증 객체 저장
+//        }
+//        System.out.println("필터를 통과하였다....");
+//        chain.doFilter(request, response);
+//    }
+
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = resolveToken((HttpServletRequest)request);
         if (token != null && jwtTokenManager.validateToken(token)) {   // token 검증
+            System.out.println("토큰을 검증하고 인증객체를 생성");
             Authentication auth = jwtTokenManager.getAuthentication(token);    // 인증 객체 생성
             SecurityContextHolder.getContext().setAuthentication(auth); // SecurityContextHolder에 인증 객체 저장
+            System.out.println("인증 객체:" + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+            System.out.println("인증 객체:" + SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
         }
+<<<<<<< HEAD
+        System.out.println("필터를 통과하였다....");
+        filterChain.doFilter(request, response);
+=======
         chain.doFilter(request, response);
+>>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
     }
 
     //  토큰의 정보를 가져오는 메소드
     private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
         return null;
