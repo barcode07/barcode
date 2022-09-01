@@ -3,8 +3,8 @@ import { setAccessToken } from "../../src/redux/reducers/authReducer";
 import { store } from "../../src/redux/store";
 
 const AxiosInstance = axios.create({
-  baseURL: "http://localhost:8080",
-  // baseURL: "http://barcode-server.ssssksss.xyz:8080",
+  // baseURL: "http://localhost:8080",
+  baseURL: "http://barcode-server.ssssksss.xyz:8080",
   //timeout: 1000,
   headers: {
     "Content-Type": "application/json",

@@ -36,20 +36,6 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-<<<<<<< HEAD
-=======
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//    return (web) -> web.ignoring().mvcMatchers("/error", "/swagger-ui/**","/swagger-ui.html", "/swagger/**", "/swagger-resources/**","/v3/api-docs","/v3/api-docs/**","/**/*.png",
-//        "/**/*.gif",
-//        "/**/*.svg",
-//        "/**/*.jpg",
-//        "/**/*.html",
-//        "/**/*.css",
-//        "/**/*.js");
-//    }
-
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -65,7 +51,6 @@ public class WebSecurityConfig {
                 .and()
 //                .antMatchers("/**").permitAll()
                 .authorizeRequests()
-<<<<<<< HEAD
                 .antMatchers("/error", "/swagger-ui/**","/swagger-ui.html","/swagger/**", "/swagger-resources/**","/v3/api-docs","/v3/api-docs/**","/**/*.png","/**/*.gif","/**/*.svg","/**/*.jpg","/**/*.html","/**/*.css","/**/*.js").permitAll()
                 .antMatchers("/user/test").hasRole("USER")
                 .antMatchers("/user/**").permitAll()
@@ -81,49 +66,10 @@ public class WebSecurityConfig {
                 // jwt를 사용하므로 spring security의 session은 필요가 없다.
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-=======
-                .antMatchers("/**").permitAll()
-                .antMatchers("/error", "/swagger-ui/**","/swagger-ui.html","/swagger/**", "/swagger-resources/**","/v3/api-docs","/v3/api-docs/**","/**/*.png","/**/*.gif","/**/*.svg","/**/*.jpg","/**/*.html","/**/*.css","/**/*.js").permitAll()
-//                .antMatchers("/user/**").permitAll()
-//                .antMatchers("/test").hasRole("USER")
-//                .anyRequest().authenticated()
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
                 .and()
 //               첫번째 인자로 필터를 넣어주고, 두번째 인자로 어떤 필터전에 실행 시킬지 필터를 넣어준다.
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenManager), UsernamePasswordAuthenticationFilter.class);
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenManager), UsernamePasswordAuthenticationFilter.class);
-<<<<<<< HEAD
-=======
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-//                .exceptionHandling()
-//                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//                .and()
-//                .apply(new JwtSecurityConfig(jwtTokenManager));
 
-//        			.authorizeRequests()
-//                .antMatchers("/api/members/signup", "/api/members/signin").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .disable()
-//                .csrf()
-//                .disable()
-//                .headers()
-//                .disable()
-//                .httpBasic()
-//                .disable()
-//                .rememberMe()
-//                .disable()
-//                .logout()
-//                .disable()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .exceptionHandling()
-//                .accessDeniedHandler(accessDeniedHandler())
-//                .authenticationEntryPoint(authenticationEntryPoint())
-
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
         return http.build();
     }
 
