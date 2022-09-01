@@ -4,10 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
-<<<<<<< HEAD
-=======
-import javax.validation.constraints.Pattern;
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
+
 
 /**
  * PackageName : com.barcode.server.barcode.dto.server

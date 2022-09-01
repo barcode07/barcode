@@ -34,12 +34,6 @@ public class Server {
     private String name;
 
     @Column
-<<<<<<< HEAD
-=======
-    private Long adminId;
-
-    @Column
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
     private String imgUrl;
 
     @Column
@@ -47,7 +41,6 @@ public class Server {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="USER_ID")
-<<<<<<< HEAD
     private User user;
 
     @OneToMany(mappedBy = "server", fetch=FetchType.LAZY)
@@ -55,15 +48,6 @@ public class Server {
     private List<ChannelGroup> channelGroups = new ArrayList<>();
 
     @OneToMany(mappedBy = "server", fetch=FetchType.LAZY)
-=======
-    private User userId;
-
-    @OneToMany(mappedBy = "serverId", fetch=FetchType.LAZY)
-    @Builder.Default
-    private List<UserGroup> userGroup = new ArrayList<>();
-
-    @OneToMany(mappedBy = "serverId", fetch=FetchType.LAZY)
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
     @Builder.Default
     private List<Team> team = new ArrayList<>();
 

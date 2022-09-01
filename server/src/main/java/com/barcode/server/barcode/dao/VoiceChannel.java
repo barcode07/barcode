@@ -1,10 +1,6 @@
 package com.barcode.server.barcode.dao;
 
-<<<<<<< HEAD
-=======
-import com.barcode.server.barcode.dao.User;
-import com.barcode.server.barcode.dao.UserGroup;
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
+
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -32,13 +28,9 @@ public class VoiceChannel {
     private Long id;
 
     @ManyToOne
-<<<<<<< HEAD
     @JoinColumn(name="CHANNEL_GROUP_ID")
     private ChannelGroup channelGroups;
-=======
-    @JoinColumn(name="USER_GROUP_ID")
-    private UserGroup userGroup;
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
+
 
     @Column
     private String name;

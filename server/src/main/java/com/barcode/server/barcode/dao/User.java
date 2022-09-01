@@ -54,19 +54,11 @@ public class User {
     @Embedded
     private BaseTimeEntity baseTimeEntity;
 
-<<<<<<< HEAD
     @OneToMany(mappedBy = "user", fetch=FetchType.LAZY)
     @Builder.Default
     private List<Server> server = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch=FetchType.LAZY)
-=======
-    @OneToMany(mappedBy = "userId", fetch=FetchType.LAZY)
-    @Builder.Default
-    private List<Server> server = new ArrayList<>();
-
-    @OneToMany(mappedBy = "userId", fetch=FetchType.LAZY)
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
     @Builder.Default
     private List<Team> team = new ArrayList<>();
 

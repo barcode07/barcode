@@ -52,18 +52,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = resolveToken((HttpServletRequest)request);
         if (token != null && jwtTokenManager.validateToken(token)) {   // token 검증
-            System.out.println("토큰을 검증하고 인증객체를 생성");
+            // System.out.println("토큰을 검증하고 인증객체를 생성");
             Authentication auth = jwtTokenManager.getAuthentication(token);    // 인증 객체 생성
             SecurityContextHolder.getContext().setAuthentication(auth); // SecurityContextHolder에 인증 객체 저장
-            System.out.println("인증 객체:" + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-            System.out.println("인증 객체:" + SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
+            // System.out.println("인증 객체:" + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+            // System.out.println("인증 객체:" + SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
         }
-<<<<<<< HEAD
-        System.out.println("필터를 통과하였다....");
         filterChain.doFilter(request, response);
-=======
-        chain.doFilter(request, response);
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
+
     }
 
     //  토큰의 정보를 가져오는 메소드

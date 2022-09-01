@@ -1,29 +1,9 @@
 package com.barcode.server.barcode.controller;
 
-<<<<<<< HEAD
 import com.barcode.server.barcode.service.TeamService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
-=======
-import com.barcode.server.barcode.dto.TeamDto;
-import com.barcode.server.barcode.dto.UserSignupDto;
-import com.barcode.server.barcode.service.TeamService;
-import com.barcode.server.barcode.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
 
 /**
  * PackageName : com.barcode.server.barcode.controller

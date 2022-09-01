@@ -118,7 +118,6 @@ public class JwtTokenManager {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername((String)parseClaims(token).get("email"));
         return new UsernamePasswordAuthenticationToken(parseClaims(token).get("email"),"null",
                 customUserDetailsService.getAuthorities((String)parseClaims(token).get("email")));
-<<<<<<< HEAD
     }
 
     public Claims validRefreshTokenAndReturnBody(String token) {
@@ -134,8 +133,6 @@ public class JwtTokenManager {
         finally {
             return  claims;
         }
-=======
->>>>>>> 1c7d14314658c1a463824e558e22bced466a0aee
     }
 }
 
