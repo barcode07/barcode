@@ -1,5 +1,8 @@
+import AxiosInstance from "@/utils/axios/AxiosInstance";
 import styled from "@emotion/styled";
-import AxiosInstance from "./AxiosInstance";
+import { setAccessToken } from "src/redux/reducers/authReducer";
+import { store } from "src/redux/store";
+
 /**
  * Author : Sukyung Lee
  * FileName: test1.tsx
@@ -11,6 +14,19 @@ import AxiosInstance from "./AxiosInstance";
 const Test1 = () => {
   const submitLogin = () => {
     AxiosInstance({
+      url: "/user/test",
+      method: "GET",
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const submitLogin1 = () => {
+    AxiosInstance({
       url: "/user/login",
       method: "POST",
       data: {
@@ -19,7 +35,7 @@ const Test1 = () => {
       },
     })
       .then((res) => {
-        console.log(res.data);
+        store.dispatch(setAccessToken(res.data.accessToken));
         alert("로그인에 성공하였습니다.");
       })
       .catch((err) => {
@@ -30,8 +46,8 @@ const Test1 = () => {
   return (
     <Container>
       <div>
-        {" "}
         <button onClick={submitLogin}> 버튼이다 </button>{" "}
+        <button onClick={submitLogin1}> 버튼이다1 </button>{" "}
       </div>
       <div> </div>
     </Container>

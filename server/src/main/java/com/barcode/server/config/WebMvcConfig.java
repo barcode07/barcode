@@ -16,7 +16,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowedMethods("*") // 허용할 http 메소드
                 .maxAge(5000) //pre-flight 리퀘스트 캐싱
-                .allowedOriginPatterns("*")
+//                .allowedOriginPatterns("*")
+                .allowedOrigins("http://localhost:3000","http://localhost:8080","http://barcode-server.ssssksss.xyz",
+                        "http://ssssksss.xyz")
                 .allowCredentials(true);
 
 //                .allowedMethods("GET","POST","PUT","PATCH","DELETE","OPTIONS")

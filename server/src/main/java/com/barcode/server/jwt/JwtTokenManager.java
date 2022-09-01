@@ -37,11 +37,11 @@ public class JwtTokenManager {
     private static final int REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14;  // 14일
     private byte[] encodingKey = DatatypeConverter.parseBase64Binary("E2BBFD358D01113E9563FB3865582DA90D056C658099DEB46F2FFF95BC67C2EC");
     private Key key = Keys.hmacShaKeyFor(encodingKey);
-//    private final UserDetailsService userDetailsService;
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-//    public JwtTokenManager(@Qualifier("userUserDetailsService") UserDetailsService userDetailsService) {
+    //    public JwtTokenManager(@Qualifier("userUserDetailsService") UserDetailsService userDetailsService) {
 //        this.userDetailsService = userDetailsService;
 //    }
 
@@ -90,7 +90,6 @@ public class JwtTokenManager {
 
     public boolean validateToken(String token) {
         try {
-            System.out.println("token : "+token);
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
@@ -114,11 +113,9 @@ public class JwtTokenManager {
     }
 
     public Authentication getAuthentication(String token) {
-        System.out.println("token : " + token);
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername("dobby@dobby.com");
-        System.out.println("userDetails : " + userDetails);
-        return new UsernamePasswordAuthenticationToken("dobby@dobby.com",null,
-                customUserDetailsService.getAuthorities("dobby@dobby.com"));
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername((String)parseClaims(token).get("email"));
+        return new UsernamePasswordAuthenticationToken(parseClaims(token).get("email"),"null",
+                customUserDetailsService.getAuthorities((String)parseClaims(token).get("email")));
     }
 }
 

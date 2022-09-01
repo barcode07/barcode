@@ -31,6 +31,6 @@ public class BaseTimeEntity {
     @Column(name="updated_at", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updateddAt;
 
-    @Column(name="delete_at", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
-    private LocalDateTime deleteAt;
+    @Column(name="deleted_at", nullable = true, columnDefinition = "DATETIME DEFAULT NULL")
+    private LocalDateTime deletedAt;
 }
