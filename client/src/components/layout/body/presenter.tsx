@@ -1,3 +1,4 @@
+import Chatting from "../chat/Chatting";
 import * as B from "./style";
 
 interface ILayOutBodyProps {
@@ -8,6 +9,7 @@ export default function BodyPresenter(props: ILayOutBodyProps) {
   return (
     <B.HTML inServer={props.inServer}>
       <B.Body>바디</B.Body>
+      <Chatting />
     </B.HTML>
   );
 }
