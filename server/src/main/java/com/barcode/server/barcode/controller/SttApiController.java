@@ -111,11 +111,11 @@ public class SttApiController {
 
                     return returnData;
                 } else {
-                    System.out.println("error !!!");
+//                    System.out.println("error !!!");
                     throw new Exception();
                 }
             } catch (Exception e) {
-                System.out.println(e);
+//                System.out.println(e);
                 throw new Exception(e);
             }
 

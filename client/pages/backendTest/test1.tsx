@@ -1,59 +1,123 @@
 import AxiosInstance from "@/utils/axios/AxiosInstance";
 import styled from "@emotion/styled";
-import { setAccessToken } from "src/redux/reducers/authReducer";
+import { useEffect, useState } from "react";
+import SockJS from "sockjs-client";
 import { store } from "src/redux/store";
-
+import Stomp from "stompjs";
 /**
  * Author : Sukyung Lee
- * FileName: test1.tsx
- * Date: 2022-08-18 04:24:19
+ * FileName: test2.tsx
+ * Date: 2022-08-18 04:37:05
  * Description :
  */
 
-// Axios 객체를 만들어서 로그인 API를 사용하는 예제
-const Test1 = () => {
-  const submitLogin = () => {
+export type message = {
+  username: string;
+  content: string;
+};
+// 아래 2줄은 컴포넌트 내부로 들어가면 배로 소켓이 생성되는것 같다.
+let sockJS = new SockJS("http://localhost:8080/webSocket");
+let stompClient: Stomp.Client = Stomp.over(sockJS);
+
+const Test2 = () => {
+  // 웹소켓 연결시 stomp에서 자동으로 연결되었다는 console을 보여주는데 그것을 보이지 않게 하는 용도
+  stompClient.debug = () => {};
+
+  const [contents, setContents] = useState<message[]>([]);
+  const [username, setUsername] = useState("");
+  const [message, setMessage] = useState("");
+  const [roomId, setRoomId] = useState("2");
+
+  // useEffect(() => {
+  //   stompClient.connect({}, () => {
+  //     stompClient.subscribe(`/topic/${roomId}`, (data: any) => {
+  //       const newMessage: message = JSON.parse(data.body) as message;
+  //       addMessage(newMessage);
+  //     });
+  //   });
+  // }, [contents]);
+
+  // useEffect(() => {
+  //   return () => {
+  //     stompClient.disconnect(() => {
+  //       console.log("연결해제");
+  //     });
+  //   };
+  // }, []);
+
+  // const handleEnter = (username: string, content: string) => {
+  //   const newMessage: message = { username, content };
+  //   stompClient.send(`/hello/${roomId}`, {}, JSON.stringify(newMessage));
+  //   setMessage("");
+  // };
+
+  // const addMessage = (message: message) => {
+  //   setContents((prev) => [...prev, message]);
+  // };
+
+  const onClickSubmit = (data: any) => {
     AxiosInstance({
-      url: "/user/test",
+      url: "/user",
       method: "GET",
     })
-      .then((res) => {
-        console.log(res);
+      .then((response) => {
+        console.log("성공");
+        console.log(response);
+        // store.dispatch(setAccessToken(res.data.accessToken));
+        console.log(store.getState().user);
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const submitLogin1 = () => {
-    AxiosInstance({
-      url: "/user/login",
-      method: "POST",
-      data: {
-        email: "dobby@dobby.com",
-        password: "P@ssw0rd!",
-      },
-    })
-      .then((res) => {
-        store.dispatch(setAccessToken(res.data.accessToken));
-        alert("로그인에 성공하였습니다.");
-      })
-      .catch((err) => {
+        console.log("실패");
         console.log(err);
       });
   };
 
   return (
     <Container>
-      <div>
-        <button onClick={submitLogin}> 버튼이다 </button>{" "}
-        <button onClick={submitLogin1}> 버튼이다1 </button>{" "}
-      </div>
-      <div> </div>
+      <button onClick={onClickSubmit}>테스트 버튼</button>
+      {/* <Divider>
+        <div>
+          유저이름 :
+          <input
+            style={{ flex: 1 }}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className={"contents"}>
+          {contents.map((message: any, index: number) => (
+            <div key={index}>
+              {message.username} : {message.content}{" "}
+            </div>
+          ))}
+        </div>
+        <div>
+          <input
+            placeholder="input your messages..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            // onSearch={(value) => handleEnter(username,value)}
+            // enterButton={"Enter"}
+          />
+        </div>
+        <button type="button" onClick={() => handleEnter(username, message)}>
+          전송
+        </button>
+      </Divider>
+      <button
+        type="button"
+        onClick={() => setRoomId(roomId === "1" ? "2" : "1")}
+      >
+        방 바꾸기 : {roomId}
+      </button> */}
     </Container>
   );
 };
-export default Test1;
+export default Test2;
 const Container = styled.div`
   width: 100%;
+`;
+const Divider = styled.div`
+  border: 1px solid black;
+  padding: 20px;
 `;

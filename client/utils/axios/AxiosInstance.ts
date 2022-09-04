@@ -1,10 +1,11 @@
 import axios, { Axios } from "axios";
+import { setUserInfo } from "src/redux/reducers/userReducer";
 import { setAccessToken } from "../../src/redux/reducers/authReducer";
 import { store } from "../../src/redux/store";
 
 const AxiosInstance = axios.create({
-  // baseURL: "http://localhost:8080",
-  baseURL: "http://barcode-server.ssssksss.xyz:8080",
+  baseURL: "http://localhost:8080",
+  // baseURL: "http://barcode-server.ssssksss.xyz:8080",
   //timeout: 1000,
   headers: {
     "Content-Type": "application/json",
@@ -56,7 +57,7 @@ AxiosInstance.interceptors.response.use(
         url: "/user/accessToken",
         method: "GET",
       })
-        .then((res) => {
+        .then(async (res) => {
           console.log("새로운 액세스 토큰 받아와서 리덕스에 저장 중");
           // 리덕스에 accessToken 보관
           store.dispatch(setAccessToken(res.data.accessToken));
@@ -64,6 +65,24 @@ AxiosInstance.interceptors.response.use(
           // 헤더에 새로운 accessToken 넣어서 다시 api 실행
           originalRequest.headers["Authorization"] =
             "Bearer " + store.getState().auth.accessToken;
+
+          await AxiosInstance({
+            url: "/user",
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${store.getState().auth.accessToken}`,
+            },
+          })
+            .then((response) => {
+              store.dispatch(
+                setUserInfo({
+                  userId: response.data.data.user.userId,
+                  email: response.data.data.user.email,
+                  nickname: response.data.data.user.nickname,
+                })
+              );
+            })
+            .catch((error) => {});
         })
         .catch((err) => {
           existNewAccessToken = false;
