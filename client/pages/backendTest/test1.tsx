@@ -24,7 +24,7 @@ const Test2 = () => {
   stompClient.debug = () => {};
 
   const [contents, setContents] = useState<message[]>([]);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(store.getState().user.nickname);
   const [message, setMessage] = useState("");
   const [roomId, setRoomId] = useState("2");
 
@@ -62,9 +62,7 @@ const Test2 = () => {
     })
       .then((response) => {
         console.log("성공");
-        console.log(response);
         // store.dispatch(setAccessToken(res.data.accessToken));
-        console.log(store.getState().user);
       })
       .catch((err) => {
         console.log("실패");
@@ -72,9 +70,14 @@ const Test2 = () => {
       });
   };
 
+  // store.subscribe(() => {
+  //   setUsername(store.getState().user.nickname);
+  // });
+
   return (
     <Container>
       <button onClick={onClickSubmit}>테스트 버튼</button>
+      {username}
       {/* <Divider>
         <div>
           유저이름 :

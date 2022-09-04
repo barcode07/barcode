@@ -5,9 +5,9 @@ import { store } from "src/redux/store";
 import Stomp from "stompjs";
 /**
  * Author : Sukyung Lee
- * FileName: test2.tsx
- * Date: 2022-08-18 04:37:05
- * Description :
+ * FileName: Chatting.tsx
+ * Date: 2022-09-05 01:47:31
+ * Description : 채팅 화면
  */
 
 export type message = {
@@ -18,8 +18,7 @@ export type message = {
 let sockJS = new SockJS("http://localhost:8080/webSocket");
 let stompClient: Stomp.Client = Stomp.over(sockJS);
 
-const Test2 = () => {
-  // 웹소켓 연결시 stomp에서 자동으로 연결되었다는 console을 보여주는데 그것을 보이지 않게 하는 용도
+const Chatting = () => {
   stompClient.debug = () => {};
 
   const [contents, setContents] = useState<message[]>([]);
@@ -64,7 +63,18 @@ const Test2 = () => {
         <div className={"contents"}>
           {contents.map((message: any, index: number) => (
             <div key={index}>
-              {message.username} : {message.content}{" "}
+              {message.username === username ? (
+                <>
+                  {" "}
+                  <BlueColor> {message.username} </BlueColor> :{" "}
+                  {message.content}{" "}
+                </>
+              ) : (
+                <>
+                  {" "}
+                  {message.username} : {message.content}{" "}
+                </>
+              )}
             </div>
           ))}
         </div>
@@ -93,11 +103,14 @@ const Test2 = () => {
     </Container>
   );
 };
-export default Test2;
+export default Chatting;
 const Container = styled.div`
   width: 100%;
 `;
 const Divider = styled.div`
   border: 1px solid black;
   padding: 20px;
+`;
+const BlueColor = styled.span`
+  color: blue;
 `;
