@@ -4,9 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 /**
@@ -16,8 +19,8 @@ import java.time.LocalDateTime;
  * Date : 2022-04-29
  * Description :
  */
-//@MappedSuperclass
-//@EntityListeners(AuditingEntityListener.class)
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 @Embeddable
 @Getter
 @Setter

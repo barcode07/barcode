@@ -21,6 +21,8 @@ public class ResponseDataDto<K,T> {
     private String msg;
     private Map<K,T> data;
 //    @Builder.Default private Boolean successFlag = true;
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("key",value);
 
     public ResponseDataDto(int statusCode, String msg, Map<K,T> data) {
         this.statusCode = statusCode;

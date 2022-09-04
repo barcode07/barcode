@@ -5,14 +5,13 @@ import com.barcode.server.barcode.dao.User;
 import com.barcode.server.barcode.dto.UserLoginDto;
 import com.barcode.server.barcode.dto.UserSignupDto;
 import com.barcode.server.barcode.repository.UserRepository;
-import com.barcode.server.commonDto.ResponseErrorDto;
-import com.barcode.server.commonDto.ResponseErrorsDto;
-import com.barcode.server.commonDto.ResponseStatusDto;
-import com.barcode.server.commonDto.ResponseTokenDto;
+import com.barcode.server.commonDto.*;
 import com.barcode.server.jwt.JwtTokenManager;
 import io.jsonwebtoken.Claims;
+import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +22,8 @@ import org.springframework.validation.FieldError;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * PackageName : com.example.ssssksss_blog.blog.service
@@ -124,9 +125,9 @@ public class UserService {
 //        System.out.println(request.getCookies()[0].getValue());
         String refreshToken = request.getCookies()[0].getValue();
         Claims claims = jwtTokenManager.validRefreshTokenAndReturnBody(refreshToken);
-        System.out.println(claims);
-        System.out.println(claims.get("email"));
-        System.out.println(claims.get("role"));
+//        System.out.println(claims);
+//        System.out.println(claims.get("email"));
+//        System.out.println(claims.get("role"));
 //        System.out.println(jwtTokenManager.createAccessToken(User.builder()
 //                .email((String)claims.get("email")).role(Role.valueOf((String)claims.get("role"))).build()));
         String newAccessToken = jwtTokenManager.createAccessToken(User.builder()
@@ -138,6 +139,18 @@ public class UserService {
 
     public ResponseEntity userTest(HttpServletRequest request) {
         return ResponseEntity.status(200).body(new ResponseStatusDto(200,"성공"));
+    }
+
+    public ResponseEntity fetchUser(HttpServletRequest request) {
+        Optional<User> user = userRepository.findByEmail((String)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        HashMap<String, Object> map = new HashMap<>();
+//        map.put("user",user.get());
+        JSONObject obj = new JSONObject();
+        obj.put("email", user.get().getEmail());
+        obj.put("nickname", user.get().getNickname());
+        obj.put("userId", user.get().getId());
+        map.put("user",obj);
+        return ResponseEntity.ok().body(new ResponseDataDto(200,"사용자 정보",map));
     }
 }
 

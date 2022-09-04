@@ -59,7 +59,7 @@ public class UserController {
     })
     @RequestMapping(value="/user/login", method=RequestMethod.POST, produces = "application/json; charset=utf-8")
     public ResponseEntity userLogin(@Valid @RequestBody UserLoginDto userLoginDto, BindingResult bindingResult, HttpServletResponse response) {
-        System.out.println(userLoginDto);
+//        System.out.println(userLoginDto);
         if(bindingResult.getFieldErrorCount()>0) {
             return userService.validateLoginParameter(bindingResult);
         }
@@ -94,13 +94,24 @@ public class UserController {
     })
     @RequestMapping(value="/user/accessToken", method=RequestMethod.GET)
     public ResponseEntity userReissueAccessToken(HttpServletRequest request) {
-        System.out.println("/user/accessToken 까지는 오나요?");
         return userService.updateAccessToken(request);
     }
 
+    @ApiOperation(value = "유저 정보 조회", notes="유저 정보 조회 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ResponseEntity.class ))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = ResponseEntity.class ))),
+            @ApiResponse(responseCode = "404", description = "잘못된 접근입니다."),
+            @ApiResponse(responseCode = "500", description = "서버 에러"),
+    })
+    @RequestMapping(value="/user", method=RequestMethod.GET)
+    public ResponseEntity fetchUser(HttpServletRequest request) {
+        return userService.fetchUser(request);
+    }
+
+
     @RequestMapping(value="/user/test", method=RequestMethod.GET)
     public ResponseEntity userTest(HttpServletRequest request) {
-        System.out.println("잘 들어오나용????");
         return userService.userTest(request);
     }
 
