@@ -123,6 +123,7 @@ public class UserService {
 //        System.out.println("========================================");
 //        System.out.println(request.getCookies()[0].getName());
 //        System.out.println(request.getCookies()[0].getValue());
+        try {
         String refreshToken = request.getCookies()[0].getValue();
         Claims claims = jwtTokenManager.validRefreshTokenAndReturnBody(refreshToken);
 //        System.out.println(claims);
@@ -135,6 +136,10 @@ public class UserService {
 //        System.out.println(newAccessToken.toString());
 //        System.out.println("========================================");
         return ResponseEntity.ok().body(new ResponseTokenDto(200,"정상적으로 다시 액세스 토큰이 발급되었습니다.",newAccessToken));
+        }catch(NullPointerException e) {
+//            리프레시 토큰이 없으면 여기로 예외가 발생할 것이다.
+            return ResponseEntity.status(406).body(new ResponseStatusDto(406,"리프레시 토큰이 없어서 실패"));
+        }
     }
 
     public ResponseEntity userTest(HttpServletRequest request) {

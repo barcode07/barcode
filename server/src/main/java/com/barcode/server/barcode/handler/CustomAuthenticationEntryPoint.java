@@ -19,6 +19,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 //        인증되지 않은 사용자 처리
-        System.out.println("인증되지 않는 사용자의 접근입니다.");
+//        System.out.println("인증되지 않는 사용자의 접근입니다.");
+//        토큰을 검증을 했는데 토큰이 유효하지 않으면 일로온다.
+        response.sendError(401,"권한이 없는 사용자 접근입니다.");
     }
 }

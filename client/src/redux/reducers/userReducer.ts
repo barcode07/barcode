@@ -17,7 +17,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUserInfo: (state, { payload: userInfo }) => {
-      console.log("userInfo : " + userInfo);
       state.userId = userInfo.userId;
       state.email = userInfo.email;
       state.nickname = userInfo.nickname;
