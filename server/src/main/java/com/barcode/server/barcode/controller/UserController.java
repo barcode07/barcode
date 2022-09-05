@@ -112,6 +112,7 @@ public class UserController {
 
     @RequestMapping(value="/user/test", method=RequestMethod.GET)
     public ResponseEntity userTest(HttpServletRequest request) {
+        System.out.println("안나와!!!");
         return userService.userTest(request);
     }
 

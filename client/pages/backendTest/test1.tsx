@@ -21,7 +21,7 @@ let stompClient: Stomp.Client = Stomp.over(sockJS);
 
 const Test2 = () => {
   // 웹소켓 연결시 stomp에서 자동으로 연결되었다는 console을 보여주는데 그것을 보이지 않게 하는 용도
-  stompClient.debug = () => {};
+  // stompClient.debug = () => {};
 
   const [contents, setContents] = useState<message[]>([]);
   const [username, setUsername] = useState(store.getState().user.nickname);
@@ -57,11 +57,12 @@ const Test2 = () => {
 
   const onClickSubmit = (data: any) => {
     AxiosInstance({
-      url: "/user",
+      url: "/user/test",
       method: "GET",
     })
       .then((response) => {
         console.log("성공");
+        console.log(response);
         // store.dispatch(setAccessToken(res.data.accessToken));
       })
       .catch((err) => {

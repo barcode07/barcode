@@ -4,8 +4,8 @@ import { setAccessToken } from "../../src/redux/reducers/authReducer";
 import { store } from "../../src/redux/store";
 
 const AxiosInstance = axios.create({
-  baseURL: "http://localhost:8080",
-  // baseURL: "http://barcode-server.ssssksss.xyz:8080",
+  // baseURL: "http://localhost:8080",
+  baseURL: "http://barcode-server.ssssksss.xyz:8080",
   //timeout: 1000,
   headers: {
     "Content-Type": "application/json",
@@ -39,58 +39,61 @@ AxiosInstance.interceptors.request.use(
 
 AxiosInstance.interceptors.response.use(
   (response: any) => {
-    console.log("response interceptor 시작");
     return response;
   },
   async (error: any) => {
-    const originalRequest = error.config;
-    console.log(error);
-    if (
-      !originalRequest._retry &&
-      (error.response.data?.status === 403 ||
-        error.response.data?.statusCode === 403)
-    ) {
-      console.log("리프레쉬 토큰을 이용해서 엑세스 토큰을 재발급 합니다.");
-      originalRequest._retry = true; // 똑같은 api를 2번째 실행중인지 체크
-      let existNewAccessToken = true;
-      await AxiosInstance({
-        url: "/user/accessToken",
-        method: "GET",
-      })
-        .then(async (res) => {
-          console.log("새로운 액세스 토큰 받아와서 리덕스에 저장 중");
-          // 리덕스에 accessToken 보관
-          store.dispatch(setAccessToken(res.data.accessToken));
-          // console.log(store.getState().auth.accessToken);
-          // 헤더에 새로운 accessToken 넣어서 다시 api 실행
-          originalRequest.headers["Authorization"] =
-            "Bearer " + store.getState().auth.accessToken;
-
-          await AxiosInstance({
-            url: "/user",
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${store.getState().auth.accessToken}`,
-            },
-          })
-            .then((response) => {
-              store.dispatch(
-                setUserInfo({
-                  userId: response.data.data.user.userId,
-                  email: response.data.data.user.email,
-                  nickname: response.data.data.user.nickname,
-                })
-              );
-            })
-            .catch((error) => {});
+    if (error.response.data.statusCode === 406) {
+      // 1. 리프레시 토큰이 없는 경우 - 406
+      // 2. 리프레시 토큰이 문제가 있는 경우(미구현)
+      // 3. 접근 권한이 없는 경우(미구현)
+    } else {
+      const originalRequest = error.config;
+      if (
+        !originalRequest._retry &&
+        (error.response.data.status === 401 ||
+          error.response.data?.statusCode === 401)
+      ) {
+        console.log("리프레쉬 토큰을 이용해서 엑세스 토큰을 재발급 합니다.");
+        originalRequest._retry = true; // 똑같은 api를 2번째 실행중인지 체크
+        let existNewAccessToken = true;
+        await AxiosInstance({
+          url: "/user/accessToken",
+          method: "GET",
         })
-        .catch((err) => {
-          existNewAccessToken = false;
-          console.log("refreshToken 재발급 진행 실패");
-          error.response.data.status = 401;
-        });
-      if (existNewAccessToken) {
-        return axios(originalRequest); // 기존에 실행했던 API를 다시 실행
+          .then(async (res) => {
+            console.log("새로운 액세스 토큰 받아와서 리덕스에 저장 중");
+            // 리덕스에 accessToken 보관
+            store.dispatch(setAccessToken(res.data.accessToken));
+            // console.log(store.getState().auth.accessToken);
+            // 헤더에 새로운 accessToken 넣어서 다시 api 실행
+            originalRequest.headers["Authorization"] =
+              "Bearer " + store.getState().auth.accessToken;
+
+            await AxiosInstance({
+              url: "/user",
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${store.getState().auth.accessToken}`,
+              },
+            })
+              .then((response) => {
+                store.dispatch(
+                  setUserInfo({
+                    userId: response.data.data.user.userId,
+                    email: response.data.data.user.email,
+                    nickname: response.data.data.user.nickname,
+                  })
+                );
+              })
+              .catch((error) => {});
+          })
+          .catch((err) => {
+            existNewAccessToken = false;
+            console.log("refreshToken 재발급 진행 실패");
+          });
+        if (existNewAccessToken) {
+          return axios(originalRequest); // 기존에 실행했던 API를 다시 실행
+        }
       }
     }
     //토큰 만료 에러가 발생하면 로그인 페이지로 이동시키게 한다.

@@ -52,11 +52,6 @@ public class ServerController {
     @RequestMapping(value="/barcode/server", method= RequestMethod.GET)
     public ResponseEntity readServer() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal == null) {
-            ResponseEntity.ok()
-                    .body(ResponseErrorDto.builder().statusCode(401).msg("로그인이 필요합니다.").build());
-
-        }
         return serverService.read((String)principal);
     }
 
